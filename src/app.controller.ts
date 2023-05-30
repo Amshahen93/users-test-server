@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { User } from './interfaces/user.interface';
 import { v4 } from 'uuid';
@@ -14,24 +14,40 @@ export class AppController {
 
   @Post()
   createUser(@Body() user: User): User {
-    console.log(user);
     user.id = v4();
     return this.appService.createUser(user);
   }
 
   @Put()
   editUser(@Body() user: User): User {
-    return this.appService.editUser(user);
+    const updateUser = this.appService.editUser(user);
+    if (updateUser) {
+      return updateUser
+    } else {
+      throw new HttpException(`User not found id=${user.id}`, HttpStatus.NOT_FOUND)
+    }
+    
   }
 
   @Get('/:id')
   getUser(@Param() param: {id: string}) {
-    return this.appService.deleteUser(param.id);
+    const updateUser = this.appService.getUser(param.id);
+    if (updateUser) {
+      return updateUser
+    } else {
+      throw new HttpException(`User not found id=${param.id}`, HttpStatus.NOT_FOUND)
+    }
   }
 
   @Delete('/:id')
-  deleteUser(@Param() param: {id: string}) {
-    return this.appService.deleteUser(param.id);
+  deleteUser(@Param() param: {id: string}): boolean {
+    const deleted = this.appService.deleteUser(param.id);
+    if (deleted) {
+      return deleted
+    } else {
+      throw new HttpException(`User not found id=${param.id}`, HttpStatus.NOT_FOUND)
+    }
+    
   }
   
 }

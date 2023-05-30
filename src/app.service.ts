@@ -9,10 +9,11 @@ export class AppService {
     let index = -1;
     this.users.find((user: User, i: number) => {
       if (user.id === id) {
-        index = i
+        console.log(i);
+        index = i;
+        return;
       }
     });
-
     return index;
   }
 
@@ -31,16 +32,18 @@ export class AppService {
     return user;
   }
 
-  public editUser(user: User) {
+  public editUser(user: User): User {
     const index = this.findUserIndex(user.id);
     if (index > -1) {
       this.users[index] = user;
-    }
-    return user;
+      return user;
+    } 
+   
   }
 
   public deleteUser(id: string) {
     const index = this.findUserIndex(id);
+   
     if (index > -1) {
       this.users.splice(index, 1);
       return true;
