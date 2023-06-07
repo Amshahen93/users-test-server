@@ -7,6 +7,7 @@ export class AppService {
 
   private findUserIndex(id: string): number {
     let index = -1;
+    console.log(id);
     this.users.find((user: User, i: number) => {
       if (user.id === id) {
         console.log(i);
@@ -34,6 +35,7 @@ export class AppService {
 
   public editUser(user: User): User {
     const index = this.findUserIndex(user.id);
+    console.log(index);
     if (index > -1) {
       this.users[index] = user;
       return user;

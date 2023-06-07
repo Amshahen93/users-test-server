@@ -21,6 +21,7 @@ export class AppController {
   @Put()
   editUser(@Body() user: User): User {
     const updateUser = this.appService.editUser(user);
+    console.log(updateUser)
     if (updateUser) {
       return updateUser
     } else {
