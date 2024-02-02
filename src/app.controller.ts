@@ -45,7 +45,7 @@ export class AppController {
     if (deleted) {
       return deleted
     } else {
-      throw new HttpException(`${param.id}`, HttpStatus.NOT_FOUND)
+      throw new HttpException(`User not found id=${param.id}`, HttpStatus.NOT_FOUND)
     }
     
   }
